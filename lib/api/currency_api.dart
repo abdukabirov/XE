@@ -68,9 +68,9 @@ Future<List<CurrencyModel>> getCurrencies() async {
 
   List<CurrencyModel> result = [];
   for (final targetCurrency in targetCurrencies) {
-    String api_key = YOUR_SECRET_API;
+    String apiKey = YOUR_SECRET_API;
     final url =
-        'https://v6.exchangerate-api.com/v6/$api_key/enriched/$baseCurrency/$targetCurrency';
+        'https://v6.exchangerate-api.com/v6/$apiKey/enriched/$baseCurrency/$targetCurrency';
 
     final response = await http.get(Uri.parse(url));
 
@@ -80,8 +80,8 @@ Future<List<CurrencyModel>> getCurrencies() async {
       final baseCode = data['base_code'];
       final conversionRate = data['conversion_rate'];
       final flagUrl = data['target_data']['flag_url'];
-      final display_symbol = data['target_data']['display_symbol'];
-      final currency_name = data['target_data']['currency_name'];
+      final displaySymbol = data['target_data']['display_symbol'];
+      final currencyName = data['target_data']['currency_name'];
 
       // Function to convert Unicode hex references to display symbols
       String convertUnicodeToSymbol(String unicode) {
@@ -94,7 +94,7 @@ Future<List<CurrencyModel>> getCurrencies() async {
         return symbol;
       }
 
-      final currencySymbol = convertUnicodeToSymbol(display_symbol);
+      final currencySymbol = convertUnicodeToSymbol(displaySymbol);
 
       final exchangeRate = CurrencyModel(
         baseCode: baseCode,
@@ -102,7 +102,7 @@ Future<List<CurrencyModel>> getCurrencies() async {
         rate: conversionRate.toDouble(),
         flagUrl: flagUrl,
         display_symbol: currencySymbol,
-        currency_name: currency_name,
+        currency_name: currencyName,
       );
 
       result.add(exchangeRate);
